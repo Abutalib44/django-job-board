@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
+from django.contrib.auth.models import User 
 # Create your models here.
 JOB_TYPE=(
     ('Full Time','Full Time'),
@@ -14,6 +14,7 @@ def img_upload(instance,filename):
     img_name,extension=filename.split(".")
     return "jobs/%s.%s" %(instance.id,extension)
 class job(models.Model):
+    owner= models.ForeignKey(User,related_name='job_owner',on_delete=models.CASCADE)
     title= models.CharField(max_length=100)
     job_type=models.CharField(max_length=15,choices=JOB_TYPE)
     description=models.TextField(max_length=1000)
